@@ -44,13 +44,6 @@ else:
         allow_headers=["*"],
     )
 
-    from sqlalchemy.orm import Session
-    from app.db.session import SessionLocal
-
-    # Создаем сессию для работы с базой данных
-    db = SessionLocal()
-    seed_users(db)
-
     # здесь подключим роутеры:
     app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
     app.include_router(student_router, prefix="/api/student", tags=["students"])

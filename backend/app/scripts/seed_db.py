@@ -22,15 +22,16 @@ def seed_users(db: Session):
     # db.add(teacher)
 
     # Создание студента
-    student = User(
-        login="student2",
-        password_hash=get_password_hash("student"),
-        name="Студент 2",
-        role="student",
-        group_id=group.group_id,
-        external_id=None
-    )
-    db.add(student)
+    for i in range(22, 23):
+        student = User(
+            login=f"student{i}",
+            password_hash=get_password_hash(f"student{i}"),
+            name=f"Студент {i}",
+            role="student",
+            group_id=group.group_id,
+            external_id=None
+        )
+        db.add(student)
 
     db.commit()
 
