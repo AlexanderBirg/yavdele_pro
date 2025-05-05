@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Авторизация</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <h1 class="text-2xl font-bold text-center mb-6">Авторизация преподавателя</h1>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700">Логин</label>
+          <input type="text" id="username" name="username" required
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">Пароль</label>
+          <input type="password" id="password" name="password" required
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+        <div>
+          <button type="submit" 
+                  class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Войти
+          </button>
+        </div>
+      </form>
+      <div id="errorMessage" class="mt-4 text-red-500 text-sm hidden"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorElement = document.getElementById('errorMessage');
+      
+      try {
+        // Создаем данные формы для отправки
+        const formData = new URLSearchParams();
+        formData.append('username', username);
+        formData.append('password', password);
+        
+        // Отправляем запрос на API
+        const response = await fetch('http://localhost:8000/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          // Сохраняем токен в localStorage
+          localStorage.setItem('jwtToken', data.access_token);
+          // Переходим на страницу со студентами
+          window.location.href = 'index.html';
+        } else {
+          errorElement.textContent = data.detail || 'Ошибка авторизации';
+          errorElement.classList.remove('hidden');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        errorElement.textContent = 'Ошибка при авторизации. Проверьте соединение с сервером.';
+        errorElement.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
