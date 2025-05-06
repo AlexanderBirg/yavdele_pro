@@ -33,7 +33,7 @@
       const msgEl = document.getElementById('statusMessage');
 
       try {
-        const response = await fetch('http://localhost:8000/api/student/attendance/check-in', {
+        const response = await fetch('/api/student/attendance/check-in', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,

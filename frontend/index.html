@@ -76,7 +76,7 @@
     async function loadAttendanceData(token) {
       try {
         const lesson_id = 1; // Можно сделать динамическим значением, если нужно
-        const response = await fetch(`http://localhost:8000/api/teacher/attendance/today/?lesson_id=${lesson_id}`, {
+        const response = await fetch(`/api/teacher/attendance/today/?lesson_id=${lesson_id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
