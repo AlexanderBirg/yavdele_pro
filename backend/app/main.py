@@ -23,6 +23,8 @@ if isSeedDb:
     db = SessionLocal()
 
     # Заполняем базу тестовыми данными
+    # Поочередно раскомментить
+    # Придумать более умное решение
     # seed_users(db)
     # seed_lessons(db)
     # seed_attendance(db)
